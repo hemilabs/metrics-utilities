@@ -1,0 +1,13 @@
+{
+  "extends": ["bloq", "bloq/node", "prettier"],
+  "globals": {
+    "UrlFetchApp": "readonly",
+    "SpreadsheetApp": "readonly"
+  },
+  "overrides": [
+    {
+      "extends": ["bloq/markdown", "prettier"],
+      "files": ["*.md"]
+    }
+  ]
+}
