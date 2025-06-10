@@ -1,0 +1,31 @@
+{
+  "name": "metrics-utilities",
+  "version": "1.0.0",
+  "description": "Collection of utility scripts to calculate different metrics for Hemi",
+  "license": "MIT",
+  "author": {
+    "email": "gonzalo@hemi.xyz",
+    "name": "Gonzalo D'Elia"
+  },
+  "repository": "hemilabs/metrics-utilities",
+  "scripts": {
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "lint": "eslint --cache .",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "19.8.1",
+    "better-sort-github-actions": "1.0.0",
+    "better-sort-package-json": "1.1.1",
+    "commitlint-config-bloq": "1.1.0",
+    "eslint": "8.57.1",
+    "eslint-config-bloq": "4.6.1",
+    "husky": "9.1.7",
+    "lint-staged": "16.1.0",
+    "prettier": "3.5.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
