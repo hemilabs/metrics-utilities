@@ -9,6 +9,7 @@
   },
   "repository": "hemilabs/metrics-utilities",
   "scripts": {
+    "build": "rollup -c",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
     "lint": "eslint --cache .",
@@ -23,9 +24,11 @@
     "eslint-config-bloq": "4.6.1",
     "husky": "9.1.7",
     "lint-staged": "16.1.0",
-    "prettier": "3.5.3"
+    "prettier": "3.5.3",
+    "rollup": "4.0.0"
   },
   "engines": {
     "node": ">=20"
-  }
+  },
+  "type": "module"
 }

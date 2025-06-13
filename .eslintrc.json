@@ -1,5 +1,6 @@
 {
-  "extends": ["bloq", "bloq/node", "prettier"],
+  "extends": ["bloq", "bloq/node", "bloq/esm", "prettier"],
+  "ignorePatterns": ["out.js"],
   "globals": {
     "UrlFetchApp": "readonly",
     "SpreadsheetApp": "readonly"
