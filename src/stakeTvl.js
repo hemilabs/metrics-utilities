@@ -1,6 +1,6 @@
+import { getPrices } from "./prices";
 import { getTokenList } from "./tokenList";
 
-const pricesUrl = "https://token-prices.hemi.xyz/";
 const stakeUrl = "https://subgraph.hemi.xyz/43111/staked";
 
 const usdSuffix = "_usd";
@@ -181,7 +181,7 @@ export function addTvlInfo() {
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Stake TVL");
 
   // gather all the information we need
-  const { prices } = JSON.parse(UrlFetchApp.fetch(pricesUrl).getContentText());
+  const prices = getPrices();
   const { staked } = JSON.parse(UrlFetchApp.fetch(stakeUrl).getContentText());
 
   const tokenList = getTokenList();
