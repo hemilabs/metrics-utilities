@@ -1,9 +1,3 @@
-// This script runs in the context of a Google Sheets document
-// using Google Apps Script. Note that async code is not supported. CommonJs ("require")
-// or ESM ("import") are not supported either - so it's only a big plain javascript file.
-// This script can be copied into a Google App Script and should run without any change.
-"use strict";
-
 const pricesUrl = "https://token-prices.hemi.xyz/";
 const stakeUrl = "https://subgraph.hemi.xyz/43111/staked";
 const tokenListUrl =
@@ -188,9 +182,7 @@ function getTvlFormula({ headers, lastRow, sheet }) {
   return `=SUM(${startRange.getA1Notation()}:${endRange.getA1Notation()})`;
 }
 
-// This is the function entry point, and it is configured to run from Google Sheets
-// eslint-disable-next-line no-unused-vars
-function addTvlInfo() {
+export function addTvlInfo() {
   const stakeSheet =
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Stake TVL");
 
