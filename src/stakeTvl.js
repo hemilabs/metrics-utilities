@@ -1,7 +1,7 @@
+import { getTokenList } from "./tokenList";
+
 const pricesUrl = "https://token-prices.hemi.xyz/";
 const stakeUrl = "https://subgraph.hemi.xyz/43111/staked";
-const tokenListUrl =
-  "https://raw.githubusercontent.com/hemilabs/token-list/master/src/hemi.tokenlist.json";
 
 const usdSuffix = "_usd";
 // Skip Date and TVL columns
@@ -81,12 +81,6 @@ const addUsdRate = (prices) =>
       usdRate: prices[symbol.toUpperCase()],
     };
   };
-
-// stake only uses Mainnet data
-const getTokenList = () =>
-  JSON.parse(UrlFetchApp.fetch(tokenListUrl).getContentText()).tokens.filter(
-    (token) => token.chainId === 43111,
-  );
 
 /**
  * This functions the complete spreadsheet, and gets the last row with data.
