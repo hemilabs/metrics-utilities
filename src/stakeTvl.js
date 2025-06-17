@@ -1,4 +1,5 @@
 import { addUsdRate, getPrices } from "./prices";
+import { getLastRowWithData } from "./spreadsheets";
 import { getTokenList } from "./tokenList";
 import { addTokenMetadata } from "./tokens";
 
@@ -7,21 +8,6 @@ const stakeUrl = "https://subgraph.hemi.xyz/43111/staked";
 const usdSuffix = "_usd";
 // Skip Date and TVL columns
 const columnOffset = 2;
-
-/**
- * This functions the complete spreadsheet, and gets the last row with data.
- * As each stake snapshot takes one entire row, the last row + 1 will give the row
- * where to paste the next stake snapshot.
- */
-function getLastRowWithData(sheet) {
-  const rowsWithValue = sheet
-    .getRange("A:A")
-    .getValues()
-    .map((row) => row[0])
-    .filter(String); // Remove empty rows
-  // Spreadsheets are 1-indexed, so they match the length
-  return rowsWithValue.length || 1;
-}
 
 function getDate() {
   const now = new Date();
