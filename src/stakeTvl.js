@@ -1,5 +1,6 @@
 import { getPrices } from "./prices";
 import { getTokenList } from "./tokenList";
+import { addTokenMetadata } from "./tokens";
 
 const stakeUrl = "https://subgraph.hemi.xyz/43111/staked";
 
@@ -53,20 +54,6 @@ const priceMaps = {
     "0x7A06C4AeF988e7925575C50261297a946aD204A8",
   ],
 };
-
-const addTokenMetadata = (tokenList) =>
-  function (stakeToken) {
-    const { address, decimals, symbol } = tokenList.find(
-      (tokenDefinition) =>
-        tokenDefinition.address.toLowerCase() === stakeToken.id.toLowerCase(),
-    );
-    return {
-      ...stakeToken,
-      address,
-      decimals,
-      symbol,
-    };
-  };
 
 const addUsdRate = (prices) =>
   function (stakeToken) {
