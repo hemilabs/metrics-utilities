@@ -1,5 +1,5 @@
 import { addUsdRate, getPrices } from "./prices";
-import { getLastRowWithData } from "./spreadsheets";
+import { generateTokenHeaders, getLastRowWithData } from "./spreadsheets";
 import { getTokenList } from "./tokenList";
 import { addTokenMetadata } from "./tokens";
 
@@ -14,18 +14,6 @@ export const createStakeTvl = function () {
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), now.getDate());
   }
-
-  /**
-   * Deterministically generates the headers for the TVL sheet, based on the symbol.
-   */
-  const getHeaders = (stakeData) => [
-    ...new Set(
-      stakeData
-        .map(({ symbol }) => symbol)
-        .sort()
-        .concat(stakeData.map(({ symbol }) => `${symbol}${usdSuffix}`).sort()),
-    ),
-  ];
 
   function writeHeaders({ headers, sheet }) {
     const lastRowWithData = getLastRowWithData(sheet);
@@ -103,7 +91,7 @@ export const createStakeTvl = function () {
       .map(addTokenMetadata(tokenList))
       .map(addUsdRate(prices));
 
-    const symbolHeaders = getHeaders(stakeData);
+    const symbolHeaders = generateTokenHeaders(stakeData);
 
     const lastRow = getLastRowWithData(stakeSheet);
 

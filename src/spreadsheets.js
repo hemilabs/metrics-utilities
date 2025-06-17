@@ -12,3 +12,17 @@ export function getLastRowWithData(sheet) {
   // Spreadsheets are 1-indexed, so they match the length
   return rowsWithValue.length || 1;
 }
+
+const usdSuffix = "_usd";
+
+/**
+ * Deterministically generates the headers for a spreadsheet, based on the symbol.
+ */
+export const generateTokenHeaders = (tokens) => [
+  ...new Set(
+    tokens
+      .map(({ symbol }) => symbol)
+      .sort()
+      .concat(tokens.map(({ symbol }) => `${symbol}${usdSuffix}`).sort()),
+  ),
+];
