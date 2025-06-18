@@ -1,3 +1,4 @@
+import { getDate } from "./date";
 import { addUsdRate, getPrices } from "./prices";
 import {
   generateTokenHeaders,
@@ -13,11 +14,6 @@ export const createStakeTvl = function () {
   const usdSuffix = "_usd";
   // Skip Date and TVL columns
   const columnOffset = 2;
-
-  function getDate() {
-    const now = new Date();
-    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  }
 
   const getValues = ({ headers, lastRow, sheet, stakeData }) =>
     headers.map(function (header) {
