@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.1",
+    "@rollup/plugin-replace": "6.0.2",
     "better-sort-github-actions": "1.0.0",
     "better-sort-package-json": "1.1.1",
     "commitlint-config-bloq": "1.1.0",

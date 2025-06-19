@@ -2,13 +2,22 @@
   "extends": ["bloq", "bloq/node", "bloq/esm", "prettier"],
   "ignorePatterns": ["out.js"],
   "globals": {
-    "UrlFetchApp": "readonly",
-    "SpreadsheetApp": "readonly"
+    "process": "readonly",
+    "SpreadsheetApp": "readonly",
+    "UrlFetchApp": "readonly"
   },
   "overrides": [
     {
       "extends": ["bloq/markdown", "prettier"],
       "files": ["*.md"]
     }
-  ]
+  ],
+  "rules": {
+    "node/no-unpublished-import": [
+      "error",
+      {
+        "allowModules": ["@rollup/plugin-replace"]
+      }
+    ]
+  }
 }

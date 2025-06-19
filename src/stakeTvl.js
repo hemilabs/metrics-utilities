@@ -1,3 +1,4 @@
+import { constants } from "./constants";
 import { getDate } from "./date";
 import { addUsdRate, getPrices } from "./prices";
 import {
@@ -11,20 +12,19 @@ import { addTokenMetadata } from "./tokens";
 export const createStakeTvl = function () {
   const stakeUrl = "https://subgraph.hemi.xyz/43111/staked";
 
-  const usdSuffix = "_usd";
   // Skip Date and TVL columns
   const columnOffset = 2;
 
   const getValues = ({ headers, lastRow, sheet, stakeData }) =>
     headers.map(function (header) {
-      if (!header.endsWith(usdSuffix)) {
+      if (!header.endsWith(constants.usdSuffix)) {
         const { decimals, totalStaked } = stakeData.find(
           ({ symbol }) => symbol === header,
         );
         return `=${totalStaked}/(10^${decimals})`;
       }
       // it's a usd price, so it should just multiply the usd rate with the token
-      const baseSymbol = header.replace(usdSuffix, "");
+      const baseSymbol = header.replace(constants.usdSuffix, "");
       const baseTokenColumn = headers.findIndex((h) => h === baseSymbol);
       const { usdRate } = stakeData.find(({ symbol }) => symbol === baseSymbol);
       // sheets are 1-index based
@@ -40,7 +40,7 @@ export const createStakeTvl = function () {
     // must be at the end, so by finding the first usd token, we can get the whole range
     // Remember, sheets are 1-index based
     const startUsdIndex =
-      headers.findIndex((header) => header.endsWith(usdSuffix)) + 1;
+      headers.findIndex((header) => header.endsWith(constants.usdSuffix)) + 1;
     const endUsdIndex = headers.length;
     const startRange = sheet.getRange(lastRow + 1, startUsdIndex);
     const endRange = sheet.getRange(lastRow + 1, endUsdIndex);
