@@ -9,8 +9,10 @@ export const getPrices = function () {
 // Based on https://github.com/hemilabs/ui-monorepo/blob/main/portal/tokenList/stakeTokens.ts
 const priceMaps = {
   ajna: [
-    // bwAJNA
-    "0x63d367531b460da78a9ebbaf6c1fbfc397e5d40a",
+    // bwAJNA Hemi
+    "0x63D367531B460Da78a9EBBAF6c1FBFC397E5d40A",
+    // bwAJNA Ethereum
+    "0x936Ab482d6bd111910a42849D3A51Ff80BB0A711",
   ],
   btc: [
     // btBTC
@@ -29,8 +31,10 @@ const priceMaps = {
     "0xf6718b2701D4a6498eF77D7c152b2137Ab28b8A3",
     // suBTC
     "0xe85411C030fB32A9D8b14Bbbc6CB19417391F711",
-    // tBTC v2
+    // tBTC v2 Hemi
     "0x12B6e6FC45f81cDa81d2656B974E8190e4ab8D93",
+    // tBTC v2 Ethereum
+    "0x18084fbA666a33d37592fA2633fD49a74DD93a88",
     // uBTC
     "0x78E26E8b953C7c78A58d69d8B9A91745C2BbB258",
     // uniBTC
@@ -51,8 +55,10 @@ const priceMaps = {
     "0xad11a8BEb98bbf61dbb1aa0F6d6F2ECD87b35afA",
   ],
   usdt: [
-    // VUSD
+    // VUSD HEMI
     "0x7A06C4AeF988e7925575C50261297a946aD204A8",
+    // VUSD Ethereum
+    "0x677ddbd918637E5F2c79e164D402454dE7dA8619",
   ],
 };
 
