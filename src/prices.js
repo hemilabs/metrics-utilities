@@ -8,6 +8,10 @@ export const getPrices = function () {
 // As some tokens do not have their own prices, they map into the prices of these tokens
 // Based on https://github.com/hemilabs/ui-monorepo/blob/main/portal/tokenList/stakeTokens.ts
 const priceMaps = {
+  ajna: [
+    // bwAJNA
+    "0x63d367531b460da78a9ebbaf6c1fbfc397e5d40a",
+  ],
   btc: [
     // btBTC
     "0x93919784C523f39CACaa98Ee0a9d96c3F32b593e",

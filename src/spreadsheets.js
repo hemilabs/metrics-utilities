@@ -1,3 +1,4 @@
+import { constants } from "./constants";
 /**
  * This function checks the complete spreadsheet, and gets the last row with data.
  * As usually each metric takes one entire row, the last row + 1 will give the row
@@ -13,8 +14,6 @@ export function getLastRowWithData(sheet) {
   return rowsWithValue.length || 1;
 }
 
-const usdSuffix = "_usd";
-
 /**
  * Deterministically generates the headers for a spreadsheet, based on the symbol.
  */
@@ -23,7 +22,9 @@ export const generateTokenHeaders = (tokens) => [
     tokens
       .map(({ symbol }) => symbol)
       .sort()
-      .concat(tokens.map(({ symbol }) => `${symbol}${usdSuffix}`).sort()),
+      .concat(
+        tokens.map(({ symbol }) => `${symbol}${constants.usdSuffix}`).sort(),
+      ),
   ),
 ];
 
