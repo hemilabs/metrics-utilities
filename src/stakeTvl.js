@@ -1,12 +1,11 @@
 import { constants } from "./constants";
 import { getDate } from "./date";
-import { addUsdRate, getPrices } from "./prices";
+import { addUsdRate } from "./prices";
 import {
   generateTokenHeaders,
   getLastRowWithData,
   writeHeaders,
 } from "./spreadsheets";
-import { getTokenList } from "./tokenList";
 import { addTokenMetadata } from "./tokens";
 
 export const createStakeTvl = function () {
@@ -47,15 +46,12 @@ export const createStakeTvl = function () {
     return `=SUM(${startRange.getA1Notation()}:${endRange.getA1Notation()})`;
   }
 
-  function addTvlInfo() {
+  function addTvlInfo({ prices, tokenList }) {
     const stakeSheet =
       SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Stake TVL");
 
     // gather all the information we need
-    const prices = getPrices();
     const { staked } = JSON.parse(UrlFetchApp.fetch(stakeUrl).getContentText());
-
-    const tokenList = getTokenList();
 
     const stakeData = staked
       .map(addTokenMetadata(tokenList))

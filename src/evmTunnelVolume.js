@@ -1,13 +1,12 @@
 import { constants } from "./constants";
 import { subtractDays } from "./date";
-import { addUsdRate, getPrices } from "./prices";
+import { addUsdRate } from "./prices";
 import {
   generateTokenHeaders,
   getLastRowWithData,
   writeHeaders,
 } from "./spreadsheets";
 import { requestSubgraph, subgraphPaginate } from "./subgraph";
-import { getTokenList } from "./tokenList";
 import { addTokenMetadata } from "./tokens";
 
 export const createEvmTunnelingVolume = function () {
@@ -198,7 +197,7 @@ export const createEvmTunnelingVolume = function () {
     return `=${inflowCell} - ${outflowCell}`;
   };
 
-  const addEvmTunnelVolume = function () {
+  const addEvmTunnelVolume = function ({ prices, tokenList }) {
     const inflowPrefix = "Inflow";
     const outflowPrefix = "Outflow";
     const tunnelVolumeSheet =
@@ -207,10 +206,6 @@ export const createEvmTunnelingVolume = function () {
       );
 
     const lastRow = getLastRowWithData(tunnelVolumeSheet);
-
-    const prices = getPrices();
-
-    const tokenList = getTokenList();
 
     const fromTimestamp = getFromTimestamp();
 
