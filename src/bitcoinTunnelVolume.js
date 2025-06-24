@@ -16,19 +16,19 @@ export const createBtcTunnelingVolume = function () {
     return `=${inflowCell} - ${outflowCell}`;
   };
 
-  const reduceOperations = function ({ operations, prices, tokenList }) {
+  const reduceOperations = function ({ id, operations, prices, tokenList }) {
     const reduced = operations.reduce(
       function (acc, operation) {
-        const { decimals, depositSats, symbol, usdRate } = operation;
+        const { amount, decimals, symbol, usdRate } = operation;
         return {
           ...acc,
           decimals,
           symbol,
-          total: acc.total + depositSats,
+          total: acc.total + amount,
           usdRate,
         };
       },
-      { id: "BTC", total: 0 },
+      { id, total: 0 },
     );
 
     return addUsdRate(prices)(addTokenMetadata(tokenList)(reduced));
@@ -69,9 +69,51 @@ export const createBtcTunnelingVolume = function () {
 
     return bitcoinDeposits.map((deposit) => ({
       ...deposit,
-      depositSats: Number(deposit.depositSats),
+      amount: Number(deposit.depositSats),
       id: "BTC",
       timestamp: Number(deposit.timestamp) * 1000,
+    }));
+  };
+
+  const getBitcoinWithdrawals = function (fromTimestamp) {
+    const basePayload = {
+      query: `query GetBtcWithdrawals($fromTimestamp: String!, $limit: Int!, $toTimestamp: String!, $orderBy: String!, $orderDirection: String!, $skip: Int!) {
+        btcWithdrawals(first: $limit, orderBy: $orderBy, orderDirection: $orderDirection, skip: $skip, where: { timestamp_gte: $fromTimestamp, timestamp_lt: $toTimestamp }) {
+          amount,
+          l2Token,
+          timestamp,
+          transactionHash
+        }
+      }`,
+      variables: {
+        fromTimestamp: fromTimestamp.toString(),
+        orderBy: "timestamp",
+        orderDirection: "asc",
+        toTimestamp: (fromTimestamp + 86400 - 1).toString(),
+      },
+    };
+
+    const bitcoinWithdrawals = subgraphPaginate({
+      getter: (response) => response.btcWithdrawals,
+      requestFn({ limit, skip }) {
+        const payload = JSON.parse(
+          JSON.stringify({
+            ...basePayload,
+            variables: { ...basePayload.variables, limit, skip },
+          }),
+        );
+        return requestSubgraph({
+          payload,
+          subgraphId: "77x4fbDsVMm66pGUWBfVMzsUDec71eNSfHb1PeMhxKco",
+        });
+      },
+    });
+
+    return bitcoinWithdrawals.map((withdrawal) => ({
+      ...withdrawal,
+      amount: Number(withdrawal.amount),
+      id: withdrawal.l2Token,
+      timestamp: Number(withdrawal.timestamp) * 1000,
     }));
   };
 
@@ -87,9 +129,7 @@ export const createBtcTunnelingVolume = function () {
 
     const deposits = getBitcoinDeposits(fromTimestamp);
 
-    // const withdrawals = getBitcoinWithdrawals(fromTimestamp)
-    //   .map(addTokenMetadata(tokenList))
-    //   .map(addUsdRate(prices));
+    const withdrawals = getBitcoinWithdrawals(fromTimestamp);
 
     const headers = [
       "Date",
@@ -108,7 +148,16 @@ export const createBtcTunnelingVolume = function () {
     });
 
     const bitcoinInflow = reduceOperations({
+      id: "BTC",
       operations: deposits,
+      prices,
+      tokenList,
+    });
+
+    const bitcoinOutflow = reduceOperations({
+      // hemiBTC address
+      id: "0xAA40c0c7644e0b2B224509571e10ad20d9C4ef28",
+      operations: withdrawals,
       prices,
       tokenList,
     });
@@ -129,7 +178,9 @@ export const createBtcTunnelingVolume = function () {
       // btc_usd
       `=${btcTunnelVolumeSheet.getRange(newRow, 5).getA1Notation()}*${bitcoinInflow.usdRate}`,
       // hemi_btc
+      `=${bitcoinOutflow.total}/(10^${bitcoinOutflow.decimals})`,
       // hemi_btc_usd
+      `=${btcTunnelVolumeSheet.getRange(newRow, 7).getA1Notation()}*${bitcoinOutflow.usdRate}`,
     ];
 
     writeValuesRow({
