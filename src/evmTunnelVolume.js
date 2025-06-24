@@ -270,7 +270,7 @@ export const createEvmTunnelingVolume = function () {
 
     const values = [
       // Running today, show yesterday's data as the day is already complete
-      new Date(fromTimestamp * 1000),
+      new Date(fromTimestamp * 1000).toISOString().split("T")[0],
       // Difference of Inflows and Outflows
       getTotalVolumeCell({ lastRow, sheet: tunnelVolumeSheet }),
       // Inflow TVL formula
