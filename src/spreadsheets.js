@@ -61,3 +61,6 @@ export const writeHeaders = function ({ headers, sheet }) {
     sheet.getRange(2, columnIndex, lastRowWithData - 1, 1).setValue(0);
   }
 };
+
+export const writeValuesRow = ({ lastRow, sheet, values }) =>
+  sheet.getRange(lastRow + 1, 1, 1, values.length).setValues([values]);

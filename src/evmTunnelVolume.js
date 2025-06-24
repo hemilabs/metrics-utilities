@@ -5,6 +5,7 @@ import {
   generateTokenHeaders,
   getLastRowWithData,
   writeHeaders,
+  writeValuesRow,
 } from "./spreadsheets";
 import { requestSubgraph, subgraphPaginate } from "./subgraph";
 import { addTokenMetadata } from "./tokens";
@@ -280,9 +281,11 @@ export const createEvmTunnelingVolume = function () {
       ...withdrawalValues,
     ];
 
-    tunnelVolumeSheet
-      .getRange(lastRow + 1, 1, 1, values.length)
-      .setValues([values]);
+    writeValuesRow({
+      lastRow,
+      sheet: tunnelVolumeSheet,
+      values,
+    });
   };
 
   return {
