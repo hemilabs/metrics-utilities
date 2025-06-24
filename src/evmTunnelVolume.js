@@ -1,5 +1,5 @@
 import { constants } from "./constants";
-import { subtractDays } from "./date";
+import { getYesterday } from "./date";
 import { addUsdRate } from "./prices";
 import {
   generateTokenHeaders,
@@ -10,15 +10,6 @@ import { requestSubgraph, subgraphPaginate } from "./subgraph";
 import { addTokenMetadata } from "./tokens";
 
 export const createEvmTunnelingVolume = function () {
-  // Return the unix timestamp for the beginning of yesterday (UTC)
-  const getFromTimestamp = function () {
-    const yesterday = subtractDays(new Date(), 1);
-    const utcYear = yesterday.getUTCFullYear();
-    const utcMonth = yesterday.getUTCMonth();
-    const utcDate = yesterday.getUTCDate();
-    return Date.UTC(utcYear, utcMonth, utcDate) / 1000;
-  };
-
   /**
    * Queries the Deposits subgraph from Ethereum Mainnet, filtering by the given timestamp.
    * It should retrieve all the data for 1 day, paginating if needed (synchronously).
@@ -207,7 +198,7 @@ export const createEvmTunnelingVolume = function () {
 
     const lastRow = getLastRowWithData(tunnelVolumeSheet);
 
-    const fromTimestamp = getFromTimestamp();
+    const fromTimestamp = getYesterday();
 
     const deposits = getDeposits(fromTimestamp)
       .map(addTokenMetadata(tokenList))
