@@ -5,6 +5,7 @@ import {
   generateTokenHeaders,
   getLastRowWithData,
   writeHeaders,
+  writeValuesRow,
 } from "./spreadsheets";
 import { addTokenMetadata } from "./tokens";
 
@@ -78,7 +79,11 @@ export const createStakeTvl = function () {
       ...tokenValues,
     ];
 
-    stakeSheet.getRange(lastRow + 1, 1, 1, values.length).setValues([values]);
+    writeValuesRow({
+      lastRow,
+      sheet: stakeSheet,
+      values,
+    });
   }
 
   return { addTvlInfo };

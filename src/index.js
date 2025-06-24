@@ -6,6 +6,7 @@
 // As part of the build, everything ends up in a big plain javascript file (out.js).
 // That script can be copied into a Google App Script and should run without any change.
 // The output script is not minified to it is easier to debug in the Google App Script editor.
+import { createBtcTunnelingVolume } from "./bitcoinTunnelVolume";
 import { getCommonData } from "./common";
 import { createEvmTunnelingVolume } from "./evmTunnelVolume";
 import { createStakeTvl } from "./stakeTvl";
@@ -15,6 +16,7 @@ import { createStakeTvl } from "./stakeTvl";
 // eslint-disable-next-line no-unused-vars
 function updateMetrics() {
   const common = getCommonData();
+  const { addBitcoinTunnelVolume } = createBtcTunnelingVolume();
   const { addEvmTunnelVolume } = createEvmTunnelingVolume();
   const { addTvlInfo } = createStakeTvl();
 
@@ -22,4 +24,6 @@ function updateMetrics() {
   addTvlInfo(common);
   // Add daily tunnel information from Ethereum
   addEvmTunnelVolume(common);
+  // add daily tunnel information from Bitcoin
+  addBitcoinTunnelVolume(common);
 }
