@@ -30,7 +30,6 @@ export const createEvmTunnelingVolume = function () {
       }`,
       variables: {
         fromTimestamp: fromTimestamp.toString(),
-        l1ChainId: 1, // Ethereum Mainnet chain Id,
         orderBy: "timestamp",
         orderDirection: "asc",
         toTimestamp: (fromTimestamp + 86400 - 1).toString(),
@@ -74,7 +73,6 @@ export const createEvmTunnelingVolume = function () {
       }`,
       variables: {
         fromTimestamp: fromTimestamp.toString(),
-        l1ChainId: 1, // Ethereum Mainnet chain Id,
         orderBy: "timestamp",
         orderDirection: "asc",
         toTimestamp: (fromTimestamp + 86400 - 1).toString(),
