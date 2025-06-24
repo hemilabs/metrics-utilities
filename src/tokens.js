@@ -2,7 +2,16 @@ const EthOnL2Address = "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
 
 export const addTokenMetadata = (tokenList) =>
   function (token) {
-    // handle native token case
+    // handle BTC native token case
+    if (token.id === "BTC") {
+      return {
+        ...token,
+        address: token.id,
+        decimals: 8,
+        symbol: "BTC",
+      };
+    }
+    // handle ETH native token case
     if (token.id === EthOnL2Address) {
       return {
         ...token,
