@@ -1,4 +1,4 @@
-const pricesUrl = "https://token-prices.hemi.xyz/";
+const pricesUrl = "https://portal-api.hemi.xyz/prices";
 
 export const getPrices = function () {
   const { prices } = JSON.parse(UrlFetchApp.fetch(pricesUrl).getContentText());
