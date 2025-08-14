@@ -62,7 +62,7 @@ export const createStakeTvl = function () {
 
     const lastRow = getLastRowWithData(stakeSheet);
 
-    const headers = ["Date", "TVL", ...symbolHeaders];
+    const headers = ["Date", "TVS", ...symbolHeaders];
 
     writeHeaders({ headers, sheet: stakeSheet });
 
