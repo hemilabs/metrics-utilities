@@ -1,5 +1,5 @@
 const tokenListUrl =
-  "https://raw.githubusercontent.com/hemilabs/token-list/master/src/hemi.tokenlist.json";
+  "https://hemilabs.github.io/token-list/hemi.tokenlist.json";
 
 export const getTokenList = () =>
   JSON.parse(UrlFetchApp.fetch(tokenListUrl).getContentText()).tokens.filter(
